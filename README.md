@@ -1,48 +1,34 @@
-# How to install v2raya in centos 7
+# Install v2rayA on CentOS 7
 
-## We need v2-ray core and v2raya（please switch to root or you add your account in sudoer）
+> Requires root or sudo. Needs `curl` and `unzip`.
 
-1. add v2ray core 
+## Quick Start
 
-   Download I uploaded zip format file
+```bash
+sudo bash install.sh
+```
 
-   1. put v2ray to  /usr/local/bin/ 
+The script automatically fetches the latest versions of [v2ray-core](https://github.com/v2fly/v2ray-core) and [v2rayA](https://github.com/v2rayA/v2rayA), installs them, and starts the service.
 
-      `mv v2ray /usr/local/bin/  `
+## What the script does
 
-      if you don't have this floder
+1. Queries GitHub API for the latest `v2fly/v2ray-core` release and downloads `v2ray-linux-64.zip`
+   - Installs `v2ray` → `/usr/local/bin/v2ray`
+   - Installs `geoip.dat` / `geosite.dat` → `/usr/local/share/v2ray/`
+2. Queries GitHub API for the latest `v2rayA/v2rayA` release and installs the RPM via `yum`
+3. Enables and starts `v2raya.service`
 
-      ``mkdir /usr/local/bin/` 
+## Usage
 
-      make v2ray to executable file  
+Open the web UI at `http://localhost:2017` after installation.
 
-      `chmod 777 /usr/local/bin/v2ray`
+```bash
+# Check service status
+systemctl status v2raya.service
 
-   2. put *.dat to /usr/local/share/v2ray/
+# Restart service
+systemctl restart v2raya.service
 
-      `mv geoip.dat /usr/local/share/v2ray/`  
-
-      `mv geosite.dat /usr/local/share/v2ray/`
-
-3. install v2raya
-   `sudo yum install installer_redhat_x64_2.2.4.1.rpm`
-
-4. start v2raya
-
-   `systemctl start v2raya.service`
-
-    Set to start automatically at boot
-
-   `systemctl enable v2raya.service` 
-
-   Restart takes effect
-
-   `systemctl restart v2raya.service`
-
-5. enter web 
-   `localhost:2017`
-
-if you forget your password
-
-`v2raya --reset-password` 
-
+# Reset forgotten password
+v2raya --reset-password
+```
